@@ -1,0 +1,11 @@
+(executable
+ (public_name hi_lang)
+ (name main)
+ (libraries hi_lang))
+
+(executable
+ (name repl)
+ (flags (:standard -warn-error -a))
+ (modules repl)
+ (libraries malfunction frontend)
+ (modes native))

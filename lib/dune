@@ -1,0 +1,3 @@
+(library
+ (name hi_lang)
+ (libraries malfunction))

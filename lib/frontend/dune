@@ -1,0 +1,11 @@
+
+(ocamllex (modules lexer))
+(menhir (modules parser))
+
+ (library
+  (name frontend)
+  ; (public_name hi_lang.frontend)
+  (flags (:standard -warn-error -a))
+  (libraries malfunction)
+  (modes native))
+ 
