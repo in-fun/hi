@@ -111,8 +111,8 @@ val str = if x > 1 then true else false
 
 // With else if
 val order = if a > b then 1
-    else if a == b then 0
-    else -1
+	else if a == b then 0
+	else -1
 ```
 
 #### Sequence Expression
@@ -129,16 +129,16 @@ A block expression is either a sequence of statements or a sequence of expressio
 
 ```ocaml
 {
-    val x = 1
-    val y = 2
-    val r = x + y
-    do println "x + y = $r"
-    return r
+	val x = 1
+	val y = 2
+	val r = x + y
+	do println "x + y = $r"
+	return r
 }
 // Block of sequence expressions
 {
-    println "hi";
-    println x
+	println "hi";
+	println x
 }
 ```
 
@@ -148,7 +148,7 @@ An anonymous function is like a block expression but with some arguments.
 
 ```kotlin
 val add = { x y ->
-    x + y
+	x + y
 }
 // Types are inferred
 val add: Int -> Int -> Int
@@ -177,12 +177,26 @@ The call syntax natively supports **variable arguments** (varargs).
 type List a = Nil | Cons a (List a)
 
 fun size list = match list with
-    | Cons x xs -> 1 + size xs
-    | Nil -> 0
+	| Cons x xs -> 1 + size xs
+	| Nil -> 0
 
 val l = [1, 2, 3]
 val s = size l
 val t = size [1, 2]
+```
+
+The language features a method call operator `/.` that facilitates the chaining of method calls. This operator draws inspiration from JavaScript's [optional chaining operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) (`?.`).
+
+```ocaml
+extension IntOps for Int {
+	val neg = - this
+	fun add x = this + x
+	fun times x = this * x
+}
+
+val x = 3 /. add 4 /. times 5 /. neg
+// equivalent to
+val x = ((3.add 4).times 5).neg
 ```
 
 #### While Expression
@@ -190,8 +204,8 @@ val t = size [1, 2]
 ```kotlin
 var i = 0
 while i < 10 do {
-    println i;
-    i <- i + 1
+	println i;
+	i <- i + 1
 }
 ```
 
@@ -213,8 +227,8 @@ Pattern matching makes code more intuitive than using if-else branches.
 
 ```ocaml
 fun isEmpty a = match a with
-    | Some x -> false
-    | None -> true
+	| Some x -> false
+	| None -> true
 ```
 
 #### Try Expression
@@ -223,11 +237,11 @@ The `try` expression resembles the `match` expression.
 
 ```ocaml
 fun div x y = try
-    x / y;
-    println "division"
+	x / y;
+	println "division"
 with
-    | Division_by_zero -> println "/ by 0"
-    | Error e -> println e
+	| Division_by_zero -> println "/ by 0"
+	| Error e -> println e
 ```
 
 ### Types
@@ -276,7 +290,41 @@ type Id = Int
 val id: Id = 1
 ```
 
-#### **Algebraic Data Type**
+Type aliases can be parameterized with type variables to create generic types. For example, here's a type alias for an equality interface.
+
+```ocaml
+type Eq a = (
+	eq : a -> a -> Bool
+)
+```
+
+#### Intersection Types
+
+Intersection types are a powerful tool for combining existing record types. They are defined using the `&` operator.
+
+Here's an example of defining an intersection type `Combined` that combines two record types with fields `a` of type `Int` and `b` of type `String`:
+
+```ocaml
+type Combined = (a: Int) & (b: String)
+// This is equivalent to defining a record type with both fields:
+type Combined = (a: Int, b: String)
+```
+
+However, attempting to define an intersection type `Conflicting` with two fields named `a` of different types `Int` and `String` will result in a compilation error, as these types cannot be unified:
+
+```ocaml
+type Conflicting = (a: Int) & (a: String)
+```
+
+Intersection types can also be used to define generic types, such as `Ord a`, which combines the `Eq a` type with an additional field `compare` that takes two `a` values and returns an `Int`:
+
+```ocaml
+type Ord a = Eq a & (
+	compare: a -> a -> Int
+)
+```
+
+#### Algebraic Data Type
 
 Algebraic data types can be declared using the `data` keyword.
 
@@ -360,8 +408,8 @@ Function arguments can be marked as optional by providing a default value.
 
 ```kotlin
 fun call (debug: Bool = false) f x = {
-    val res = f x
-    if debug then print "f($x) = $res"
+	val res = f x
+	if debug then print "f($x) = $res"
 }
 // Call it
 call () double 2
@@ -383,7 +431,7 @@ Generic functions can also be restricted with constraints.
 
 ```ocaml
 type Adder a = (
-    add : a -> a -> a
+	add : a -> a -> a
 )
 fun double ?(num: Adder a) (x: a): a = num.add x
 // val double: forall a. [Adder a] -> a -> a
@@ -401,7 +449,7 @@ You can also pass implicit arguments explicitly by adding a `?` prefix to argume
 
 ```scala
 // Create a different adder
-val adder = (add = { x => x * x })
+val adder = (add = { x -> x * x })
 val x = double 3 // Evaluates to 6
 val y = double ?adder 3 // Evaluates to 9
 ```
@@ -414,8 +462,8 @@ For example, let’s add some methods to the built-in integer type.
 
 ```scala
 extension IntOps for Int {
-    val neg = - this
-    fun add x = this + x
+	val neg = - this
+	fun add x = this + x
 }
 
 val x = 3 /. neg
@@ -429,9 +477,9 @@ data List a = Nil | Cons a (List a)
 exception Empty
 
 extension for List a {
-    fun head = match this with
-        | Cons x xs -> x
-        | Nil -> throw Empty
+	fun head = match this with
+		| Cons x xs -> x
+		| Nil -> throw Empty
 }
 
 val list = Cons 1 (Cons 2 Nil)
@@ -445,7 +493,7 @@ A trait is an abstract type used for dynamic dispatch or method overloading.
 
 ```scala
 trait ToString {
-    val toString: String
+	val toString: String
 }
 ```
 
@@ -453,7 +501,7 @@ Extensions can declare conformity to traits.
 
 ```scala
 extension IntToString for Int <: ToString {
-    val toString = Int.toString this
+	val toString = Int.toString this
 }
 ```
 
@@ -463,4 +511,71 @@ Extension functions are dispatched **statically**, but a value can be cast to a 
 val objects: List ToString = [1 :> ToString, true :> ToString]
 
 for o in objects do println (o /. toString)
+```
+
+## Comprehensive Example
+Here's a program that showcases a wide range of the language's features and capabilities.
+
+```ocaml
+type Ordering = Less | Equal | Greater
+type Ord a = (
+	compare : a -> a -> Ordering
+)
+
+data List a = Nil | Cons a (List a)
+exception Empty
+
+extension ListOps for List a {
+	fun head = match this with
+		| Cons x xs -> x
+		| Nil -> throw Empty
+	fun concat ys = match this with
+		| Nil -> ys
+		| Cons x xs -> Cons x (xs/.concat ys)
+}
+
+// Integers are orderable
+extension OrdInt <: Ord Int {
+	fun compare x y = if x < y then Less
+		else if x == y then Equal
+		else Greater
+}
+
+extension SortList ?(ord: Ord a) for List a {
+	type This = List a
+
+	fun scan (compare: a -> Ordering) (xs: This) (less: This) (equal: This) (greater: This) = match xs with
+	| Nil -> (less, equal, greater)
+	| Cons y ys -> match compare y with
+		| Less -> scan compare (Cons y less) equal greater
+		| Equal -> scan compare less (Cons y equal) greater
+		| Greater -> scan compare less equal (Cons y greater)
+
+	fun sort = match this with
+	| Nil -> Nil
+	| Cons pivot ys -> {
+		val (less, equal, greater) = scan {x -> ord.compare x pivot} ys Nil (Cons pivot Nil) Nil
+		sort less /. concat equal /. concat (sort greater)
+	}
+}
+
+// Create a list of [2, 1, 4, 3].
+val numbers = Cons 2 (Cons 1 (Cons 4 (Cons 3 Nil)))
+val sorted = numbers /. sort
+// Evaluate to Cons 1 (Cons 2 (Cons 3 (Cons 4 Nil))), representing [1, 2, 3, 4].
+
+// Specify comparison function explicitly.
+fun reverse order = match order with
+	| Less -> Greater
+	| Equal -> Equal
+	| Greater -> Less
+
+val descOrd: Ord Int = (
+	compare = {a b ->
+		reverse (OrdInt.compare a b)
+	}
+)
+val descSort = (SortList ?descOrd).sort
+val descNumbers = descSort numbers
+// Evaluate to Cons 4 (Cons 3 (Cons 2 (Cons 1 Nil))), representing [4, 3, 2, 1].
 ```

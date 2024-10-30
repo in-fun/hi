@@ -31,7 +31,7 @@ While there are several languages that target native Ahead-of-Time (AoT) compila
 
 Below is a demonstration of a complete Hi program:
 
-```hi
+```ocaml
 data List a = Nil | Cons a (List a)
 exception Empty
 
@@ -45,6 +45,10 @@ val list = Cons 1 (Cons 2 Nil)
 val h = list /. head
 // h evaluates to 1
 ```
+
+## Language Tour
+
+Explore the [features and syntax of the Hi language](./docs/tour.md).
 
 ## Status
 
@@ -67,10 +71,6 @@ Currently in the proof-of-concept stage.
   - [ ] Traits and dynamic dispatch
 - [ ] Implement a standard library.
 - [ ] Develop a build system.
-
-## Language Tour
-
-Explore the [features and syntax of the Hi language](./docs/tour.md).
 
 ## Credits
 
