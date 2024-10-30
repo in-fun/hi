@@ -31,7 +31,7 @@ While there are several languages that target native Ahead-of-Time (AoT) compila
 
 Below is a demonstration of a complete Hi program:
 
-```hi
+```ocaml
 data List a = Nil | Cons a (List a)
 exception Empty
 

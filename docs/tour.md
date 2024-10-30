@@ -529,7 +529,7 @@ extension ListOps for List a {
 	fun head = match this with
 		| Cons x xs -> x
 		| Nil -> throw Empty
-	fun concat ys = math this with
+	fun concat ys = match this with
 		| Nil -> ys
 		| Cons x xs -> Cons x (xs/.concat ys)
 }
