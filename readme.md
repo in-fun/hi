@@ -46,6 +46,10 @@ val h = list /. head
 // h evaluates to 1
 ```
 
+## Language Tour
+
+Explore the [features and syntax of the Hi language](./docs/tour.md).
+
 ## Status
 
 Currently in the proof-of-concept stage.
@@ -67,10 +71,6 @@ Currently in the proof-of-concept stage.
   - [ ] Traits and dynamic dispatch
 - [ ] Implement a standard library.
 - [ ] Develop a build system.
-
-## Language Tour
-
-Explore the [features and syntax of the Hi language](./docs/tour.md).
 
 ## Credits
 
